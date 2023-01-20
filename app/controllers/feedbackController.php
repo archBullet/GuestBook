@@ -10,6 +10,9 @@ function sendForm() {
 		$name = trim($_POST['name']);
 		$content = trim($_POST['content']);
 		addJSON(new Feedback($name, $content));
+
+		// Если отключить две нижние строки - заработает сообщение
+		// об успешном добавлении поста
 		header("Location: " . $_SERVER["REQUEST_URI"]);
 		exit();
 	}

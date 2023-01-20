@@ -3,9 +3,6 @@
 require_once 'app/controllers/feedbackController.php';
 require_once 'app/controllers/pagination.php';
 
-// var_dump($_SERVER["REQUEST_URI"]);
-// var_dump($_SERVER["QUERY_STRING"]);
-
 
 ?>
 <!DOCTYPE html>
@@ -24,27 +21,39 @@ require_once 'app/controllers/pagination.php';
 		<div>
 			<nav>
 				<ul class="pagination">
-					<li class="disabled">
-						<a href="?page=1" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
-						</a>
-					</li>
+					<? if ($page != 1) : ?>
+						<li>
+							<a href='<?= "?page=" . $page - 1 ?>' aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+					<? else : ?>
+						<li class="disabled" style="pointer-events: none;">
+							<a href='<?= "?page=" . $page - 1 ?>' aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+					<? endif; ?>
 					<? for ($i = 1; $i <= $pageCount; $i++) : ?>
 						<li><a href="<?= "?page=$i" ?>"><?= $i ?></a></li>
 					<? endfor; ?>
-					<!-- <li class="active"><a href="?page=2">2</a></li>
-					<li><a href="?page=3">3</a></li>
-					<li><a href="?page=4">4</a></li>
-					<li><a href="?page=5">5</a></li> -->
-					<li>
-						<a href="?page=5" aria-label="Next">
-							<span aria-hidden="true">&raquo;</span>
-						</a>
-					</li>
+					<? if ($page < $pageCount) : ?>
+						<li>
+							<a href='<?= "?page=" . $page + 1 ?>' aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+					<? else : ?>
+						<li class="disabled" style="pointer-events: none;">
+							<a href='<?= "?page=" . $page ?>' aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+					<? endif; ?>
 				</ul>
 			</nav>
 		</div>
-		<? for ($i = ($page - 1) * 5; $i < $page * 5; $i++) : ?>
+		<? for ($i = ($page - 1) * $feedRange; $i < $page * $feedRange; $i++) : ?>
 			<? if ($i < $feedCount) : ?>
 				<div class="note">
 					<p>
@@ -57,6 +66,8 @@ require_once 'app/controllers/pagination.php';
 				</div>
 			<? endif; ?>
 		<? endfor; ?>
+
+		<!-- Не работает, пока не отключить редирект -->
 		<? if ($_SERVER['REQUEST_METHOD'] === 'POST') : ?>
 			<div class="info alert alert-info">
 				Запись успешно сохранена!
