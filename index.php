@@ -1,6 +1,11 @@
 <?php
 
 require_once 'app/controllers/feedbackController.php';
+require_once 'app/controllers/pagination.php';
+
+// var_dump($_SERVER["REQUEST_URI"]);
+// var_dump($_SERVER["QUERY_STRING"]);
+
 
 ?>
 <!DOCTYPE html>
@@ -24,11 +29,13 @@ require_once 'app/controllers/feedbackController.php';
 							<span aria-hidden="true">&laquo;</span>
 						</a>
 					</li>
-					<li class="active"><a href="?page=1">1</a></li>
-					<li><a href="?page=2">2</a></li>
+					<? for ($i = 1; $i <= $pageCount; $i++) : ?>
+						<li><a href="<?= "?page=$i" ?>"><?= $i ?></a></li>
+					<? endfor; ?>
+					<!-- <li class="active"><a href="?page=2">2</a></li>
 					<li><a href="?page=3">3</a></li>
 					<li><a href="?page=4">4</a></li>
-					<li><a href="?page=5">5</a></li>
+					<li><a href="?page=5">5</a></li> -->
 					<li>
 						<a href="?page=5" aria-label="Next">
 							<span aria-hidden="true">&raquo;</span>
@@ -37,17 +44,17 @@ require_once 'app/controllers/feedbackController.php';
 				</ul>
 			</nav>
 		</div>
-		<? foreach ($feedbacks as $feedback) : ?>
+		<? for ($i = ($page - 1) * 5; $i < $page * 5; $i++) : ?>
 			<div class="note">
 				<p>
-					<span class="date"><?= $feedback['time'] ?></span>
-					<span class="name"><?= $feedback['name'] ?></span>
+					<span class="date"><?= $feedbacks[$i]['time'] ?></span>
+					<span class="name"><?= $feedbacks[$i]['name'] ?></span>
 				</p>
 				<p>
-					<?= $feedback['content'] ?>
+					<?= $feedbacks[$i]['content'] ?>
 				</p>
 			</div>
-		<? endforeach; ?>
+		<? endfor; ?>
 		<? if ($_SERVER['REQUEST_METHOD'] === 'POST') : ?>
 			<div class="info alert alert-info">
 				Запись успешно сохранена!
