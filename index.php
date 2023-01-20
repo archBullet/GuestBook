@@ -45,15 +45,17 @@ require_once 'app/controllers/pagination.php';
 			</nav>
 		</div>
 		<? for ($i = ($page - 1) * 5; $i < $page * 5; $i++) : ?>
-			<div class="note">
-				<p>
-					<span class="date"><?= $feedbacks[$i]['time'] ?></span>
-					<span class="name"><?= $feedbacks[$i]['name'] ?></span>
-				</p>
-				<p>
-					<?= $feedbacks[$i]['content'] ?>
-				</p>
-			</div>
+			<? if ($i < $feedCount) : ?>
+				<div class="note">
+					<p>
+						<span class="date"><?= $feedbacks[$i]['time'] ?></span>
+						<span class="name"><?= $feedbacks[$i]['name'] ?></span>
+					</p>
+					<p>
+						<?= $feedbacks[$i]['content'] ?>
+					</p>
+				</div>
+			<? endif; ?>
 		<? endfor; ?>
 		<? if ($_SERVER['REQUEST_METHOD'] === 'POST') : ?>
 			<div class="info alert alert-info">
