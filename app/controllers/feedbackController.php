@@ -1,15 +1,21 @@
 <?php
 
 require_once 'app/model/Feedback.php';
-require_once 'app/controllers/JSONfunctions.php';
+require_once 'app/database/FeedbackDataGateway.php';
+require_once 'app/database/connect.php';
 
-$feedbacks = array_reverse(getJSON());
+// $feedbacks = array_reverse(getJSON());
 
-function sendForm() {
+// function sendForm() {
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$name = trim($_POST['name']);
 		$content = trim($_POST['content']);
-		addJSON(new Feedback($name, $content));
+		$feedback = new Feedback($name, $content);
+		try {
+			$pdo->addFeedback($feedback);
+		} catch (PDOException $e) {
+			echo $e;
+		}
 
 		// Если отключить две нижние строки - заработает сообщение
 		// об успешном добавлении поста
@@ -17,6 +23,6 @@ function sendForm() {
 		exit();
 	}
 	
-}
+// }
 
-sendForm();
+// sendForm();
