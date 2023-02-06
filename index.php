@@ -3,7 +3,6 @@
 require_once 'app/controllers/feedbackController.php';
 require_once 'app/controllers/pagination.php';
 
-
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -53,11 +52,12 @@ require_once 'app/controllers/pagination.php';
 				</ul>
 			</nav>
 		</div>
+
 		<? for ($i = ($page - 1) * $feedRange; $i < $page * $feedRange; $i++) : ?>
 			<? if ($i < $feedCount) : ?>
 				<div class="note">
 					<p>
-						<span class="date"><?= $feedbacks[$i]['time'] ?></span>
+						<span class="date"><?= $feedbacks[$i]['date'] ?></span>
 						<span class="name"><?= $feedbacks[$i]['name'] ?></span>
 					</p>
 					<p>

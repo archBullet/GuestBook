@@ -16,8 +16,15 @@ class FeedbackDataGateway
 	public function addFeedback(Feedback $feedback)
 	{
 		$stm = $this->pdo->prepare("INSERT INTO feedback (name, content, date) VALUES (:name, :content, :date)");
-		
+
 		$stm->execute($feedback->getFeedback());
 		return $this;
+	}
+
+	public function getFeedback()
+	{
+		$stm = $this->pdo->prepare("SELECT name, content, date FROM feedback");
+		$stm->execute();
+		return $stm->fetchAll();
 	}
 }
